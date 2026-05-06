@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#F7F1EC" />
+  <title>分配預算｜買家的你，如何挑選愛情？</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body data-page="quiz">
+  <main class="app">
+    <header class="topbar">
+      <a href="index.html" class="text-link">返回首頁</a>
+      <select id="themeSelect" aria-label="選擇頁面風格">
+        <option value="warm">暖粉紙感</option>
+        <option value="mono">黑白極簡</option>
+        <option value="blue">清透藍</option>
+        <option value="green">森林綠</option>
+        <option value="violet">紫霧漸層</option>
+      </select>
+    </header>
+
+    <section class="quiz-header">
+      <p id="stagePill" class="stage-pill">Step 1 / 3</p>
+      <h1 id="stageTitle">關係安全感</h1>
+      <p id="stageDescription"></p>
+
+      <div class="stage-bar">
+        <div id="stageBarFill"></div>
+      </div>
+    </section>
+
+    <section class="budget-panel">
+      <div>
+        <span>已使用</span>
+        <strong id="usedBudget">0</strong>
+      </div>
+      <div>
+        <span>剩餘</span>
+        <strong id="leftBudget">500</strong>
+      </div>
+      <div>
+        <span>總預算</span>
+        <strong>500</strong>
+      </div>
+    </section>
+
+    <section class="hint">
+      請將 500 元預算分配給你重視的伴侶條件。投入越高，代表該條件對你越重要。
+    </section>
+
+    <section id="questionList" class="question-list"></section>
+
+    <section class="nav-actions">
+      <button id="prevBtn" class="secondary-btn">上一頁</button>
+      <button id="nextBtn" class="primary-btn">下一頁</button>
+      <button id="resultBtn" class="primary-btn hidden">查看我的分數</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
