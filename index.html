@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>買家的你，如何挑選愛情？</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <p class="tag">Love Market</p>
+      <h1>買家的你，如何挑選愛情？</h1>
+      <p class="subtitle">
+        假設你有 500 元預算，請把錢分配給你最重視的伴侶條件。投越多，代表你越在意。
+      </p>
+    </section>
+
+    <section class="budget-card">
+      <div>
+        <p>已使用</p>
+        <strong id="usedBudget">0</strong>
+      </div>
+      <div>
+        <p>剩餘</p>
+        <strong id="leftBudget">500</strong>
+      </div>
+      <div>
+        <p>總預算</p>
+        <strong>500</strong>
+      </div>
+    </section>
+
+    <section class="notice">
+      <p>
+        操作方式：每個條件可以投入 0～500 元，但全部加總不能超過 500 元。
+        你可以先把錢放在「沒有就不行」的條件，再分配給加分條件。
+      </p>
+    </section>
+
+    <section id="questions" class="question-grid"></section>
+
+    <section class="actions">
+      <button id="analyzeBtn">產生我的愛情偏好分析</button>
+      <button id="resetBtn" class="secondary">重新分配</button>
+    </section>
+
+    <section id="result" class="result hidden"></section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
