@@ -12,6 +12,7 @@
   <main class="app">
     <header class="topbar">
       <a href="index.html" class="text-link">返回首頁</a>
+
       <select id="themeSelect" aria-label="選擇頁面風格">
         <option value="warm">暖粉紙感</option>
         <option value="mono">黑白極簡</option>
@@ -36,18 +37,28 @@
         <span>已使用</span>
         <strong id="usedBudget">0</strong>
       </div>
+
       <div>
         <span>剩餘</span>
         <strong id="leftBudget">500</strong>
       </div>
+
       <div>
-        <span>總預算</span>
-        <strong>500</strong>
+        <span>本頁使用</span>
+        <strong id="stageBudget">0</strong>
       </div>
     </section>
 
+    <section id="budgetWarning" class="budget-warning hidden"></section>
+
     <section class="hint">
       請將 500 元預算分配給你重視的伴侶條件。投入越高，代表該條件對你越重要。
+      若某項條件是你不能妥協的標準，也可以勾選「設為底線」。
+    </section>
+
+    <section class="quick-actions">
+      <button id="clearStageBtn" class="small-btn">清空本頁</button>
+      <button id="keepTopBtn" class="small-btn">只保留本頁最高 3 項</button>
     </section>
 
     <section id="questionList" class="question-list"></section>
