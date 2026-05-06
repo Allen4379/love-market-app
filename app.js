@@ -1,5 +1,6 @@
 const TOTAL_BUDGET = 500;
-const STORAGE_KEY = "loveMarketState_v5";
+const MAX_SELECTION = 5;
+const STORAGE_KEY = "loveMarketState_v6";
 
 const dimensions = {
   security: "安全與信任",
@@ -56,11 +57,27 @@ function defaultState() {
 function normalizeState(rawState) {
   const base = defaultState();
 
-  if (!rawState || typeof rawState !== "object") return base;
+  if (!rawState || typeof rawState !== "object") {
+    return base;
+  }
 
   const selected = Array.isArray(rawState.selected) && rawState.selected.length === options.length
     ? rawState.selected.map(Boolean)
     : base.selected;
+
+  let selectedCount = selected.filter(Boolean).length;
+
+  if (selectedCount > MAX_SELECTION) {
+    let kept = 0;
+
+    for (let i = 0; i < selected.length; i += 1) {
+      if (selected[i] && kept < MAX_SELECTION) {
+        kept += 1;
+      } else {
+        selected[i] = false;
+      }
+    }
+  }
 
   const values = Array.isArray(rawState.values) && rawState.values.length === options.length
     ? rawState.values.map((value, index) => {
@@ -171,7 +188,10 @@ function getTopDimension(scores) {
 
 function getTopThreeRatio(state) {
   const total = getTotalUsed(state);
-  if (total === 0) return 0;
+
+  if (total === 0) {
+    return 0;
+  }
 
   const topThree = getScoredItems(state)
     .slice(0, 3)
@@ -209,7 +229,10 @@ function decodePayload(encoded) {
 
 function getSharedPayloadFromUrl() {
   const hash = window.location.hash || "";
-  if (!hash.startsWith("#data=")) return null;
+
+  if (!hash.startsWith("#data=")) {
+    return null;
+  }
 
   const encoded = hash.replace("#data=", "");
   return normalizeState(decodePayload(encoded));
@@ -245,14 +268,14 @@ async function copyToClipboard(text) {
 
 function renderScoreBars(container, scores, total) {
   container.innerHTML = Object.entries(scores)
-    .map(([key, score]) => {
-      const percent = total === 0 ? 0 : Math.round((score / total) * 100);
+    .map(([key, value]) => {
+      const percent = total === 0 ? 0 : Math.round((value / total) * 100);
 
       return `
         <div class="score-row">
           <div class="score-row-top">
             <span>${dimensions[key]}</span>
-            <span>${score} 分｜${percent}%</span>
+            <span>${value} 分｜${percent}%</span>
           </div>
 
           <div class="bar">
@@ -273,6 +296,7 @@ function initSelectPage(state) {
   const selectedCount = document.querySelector("#selectedCount");
   const selectedPreview = document.querySelector("#selectedPreview");
   const goAllocateBtn = document.querySelector("#goAllocateBtn");
+  const limitToast = document.querySelector("#limitToast");
 
   const grouped = Object.entries(dimensions).map(([dimensionKey, dimensionLabel]) => ({
     key: dimensionKey,
@@ -282,10 +306,20 @@ function initSelectPage(state) {
       .filter((item) => item.dimension === dimensionKey)
   }));
 
+  function showLimitToast() {
+    limitToast.classList.remove("hidden");
+
+    window.clearTimeout(showLimitToast.timer);
+
+    showLimitToast.timer = window.setTimeout(() => {
+      limitToast.classList.add("hidden");
+    }, 1800);
+  }
+
   function updateSelectedDisplay() {
     const selectedItems = getSelectedItems(state);
-    selectedCount.textContent = `${selectedItems.length} 項`;
 
+    selectedCount.textContent = `${selectedItems.length} / ${MAX_SELECTION}`;
     goAllocateBtn.disabled = selectedItems.length === 0;
 
     if (selectedItems.length === 0) {
@@ -296,16 +330,19 @@ function initSelectPage(state) {
 
     selectedPreview.classList.remove("hidden");
     selectedPreview.innerHTML = `
-      <p class="selected-preview-title">目前已選</p>
+      <p class="selected-preview-title">目前已選 ${selectedItems.length} / ${MAX_SELECTION}</p>
+
       <div class="preview-chip-row">
         ${selectedItems
-          .map((item) => `<span class="preview-chip">${item.name}</span>`)
+          .map((item) => `<span class="preview-chip">✓ ${item.name}</span>`)
           .join("")}
       </div>
     `;
   }
 
   function renderGroups() {
+    const selectedTotal = getSelectedIndexes(state).length;
+
     conditionGroups.innerHTML = grouped
       .map((group) => {
         return `
@@ -316,14 +353,15 @@ function initSelectPage(state) {
               ${group.items
                 .map((item) => {
                   const isSelected = state.selected[item.index];
+                  const isLocked = !isSelected && selectedTotal >= MAX_SELECTION;
 
                   return `
                     <button
-                      class="condition-chip ${isSelected ? "selected" : ""}"
+                      class="condition-chip ${isSelected ? "selected" : ""} ${isLocked ? "locked" : ""}"
                       type="button"
                       data-index="${item.index}"
                     >
-                      ${item.name}
+                      ${isSelected ? "✓ " : ""}${item.name}
                     </button>
                   `;
                 })
@@ -339,9 +377,26 @@ function initSelectPage(state) {
 
   conditionGroups.addEventListener("click", (event) => {
     const chip = event.target.closest(".condition-chip");
-    if (!chip) return;
+
+    if (!chip) {
+      return;
+    }
 
     const index = Number(chip.dataset.index);
+    const isCurrentlySelected = state.selected[index];
+    const selectedTotal = getSelectedIndexes(state).length;
+
+    if (!isCurrentlySelected && selectedTotal >= MAX_SELECTION) {
+      chip.classList.add("shake");
+      showLimitToast();
+
+      window.setTimeout(() => {
+        chip.classList.remove("shake");
+      }, 320);
+
+      return;
+    }
+
     state.selected[index] = !state.selected[index];
 
     if (!state.selected[index]) {
@@ -356,7 +411,7 @@ function initSelectPage(state) {
     const selectedItems = getSelectedItems(state);
 
     if (selectedItems.length === 0) {
-      alert("請先選擇至少一個條件。");
+      showLimitToast();
       return;
     }
 
@@ -409,8 +464,13 @@ function initAllocatePage(state) {
     const valueLabel = document.querySelector(`#value-${index}`);
     const slider = document.querySelector(`.range[data-index="${index}"]`);
 
-    if (valueLabel) valueLabel.textContent = newValue;
-    if (slider) slider.value = newValue;
+    if (valueLabel) {
+      valueLabel.textContent = newValue;
+    }
+
+    if (slider) {
+      slider.value = newValue;
+    }
 
     updateBudgetDisplay();
   }
@@ -456,7 +516,9 @@ function initAllocatePage(state) {
   }
 
   allocationList.addEventListener("input", (event) => {
-    if (!event.target.classList.contains("range")) return;
+    if (!event.target.classList.contains("range")) {
+      return;
+    }
 
     const index = Number(event.target.dataset.index);
     setValue(index, Number(event.target.value));
@@ -464,7 +526,10 @@ function initAllocatePage(state) {
 
   allocationList.addEventListener("click", (event) => {
     const button = event.target.closest(".step-btn");
-    if (!button) return;
+
+    if (!button) {
+      return;
+    }
 
     const index = Number(button.dataset.index);
     const action = button.dataset.action;
@@ -483,7 +548,9 @@ function initAllocatePage(state) {
     const selectedIndexes = getSelectedIndexes(state);
     const count = selectedIndexes.length;
 
-    if (count === 0) return;
+    if (count === 0) {
+      return;
+    }
 
     state.values = state.values.map(() => 0);
 
@@ -495,7 +562,9 @@ function initAllocatePage(state) {
     });
 
     selectedIndexes.forEach((index) => {
-      if (remaining <= 0) return;
+      if (remaining <= 0) {
+        return;
+      }
 
       state.values[index] += 10;
       remaining -= 10;
@@ -558,6 +627,36 @@ function getScoreReport(state) {
   ].join("\n\n");
 }
 
+function renderRankList(container, items, storyMode = false) {
+  if (!items.length) {
+    container.innerHTML = "<li>尚未分配</li>";
+    return;
+  }
+
+  container.innerHTML = items
+    .slice(0, MAX_SELECTION)
+    .map((item, index) => {
+      if (storyMode) {
+        return `
+          <li>
+            <span class="story-rank-num">${index + 1}</span>
+            <span>${item.name}</span>
+            <span class="story-rank-money">${item.value}</span>
+          </li>
+        `;
+      }
+
+      return `
+        <li>
+          <span class="rank-num">${index + 1}</span>
+          <span>${item.name}</span>
+          <span class="rank-money">${item.value} 元</span>
+        </li>
+      `;
+    })
+    .join("");
+}
+
 function renderResultPage(state) {
   const sharedPayload = getSharedPayloadFromUrl();
 
@@ -585,14 +684,8 @@ function renderResultPage(state) {
   document.querySelector("#selectedCountText").textContent = `${selectedItems.length} 項`;
   document.querySelector("#topThreeRatioText").textContent = `${topThreeRatio}%`;
 
+  renderRankList(document.querySelector("#topItems"), scoredItems, false);
   renderScoreBars(document.querySelector("#dimensionScores"), scores, used);
-
-  document.querySelector("#topItems").innerHTML = scoredItems.length
-    ? scoredItems
-        .slice(0, 12)
-        .map((item) => `<li>${item.name}｜${item.value} 元</li>`)
-        .join("")
-    : "<li>尚未分配</li>";
 
   document.querySelector("#scoreReport").textContent = getScoreReport(state);
 
@@ -605,14 +698,8 @@ function renderStoryCard(state, scores, used, topDimension, scoredItems) {
   document.querySelector("#storyTopDimension").textContent =
     used === 0 ? "尚未分配" : `${topDimension.label}｜${topDimension.score} 分`;
 
+  renderRankList(document.querySelector("#storyTopItems"), scoredItems, true);
   renderScoreBars(document.querySelector("#storyDimensionScores"), scores, used);
-
-  document.querySelector("#storyTopItems").innerHTML = scoredItems.length
-    ? scoredItems
-        .slice(0, 5)
-        .map((item) => `<li>${item.name}｜${item.value} 元</li>`)
-        .join("")
-    : "<li>尚未分配</li>";
 }
 
 function buildShareText(state) {
@@ -631,14 +718,14 @@ function buildShareText(state) {
 
   return [
     "我的愛情條件分數",
-    `已選條件：${selectedItems.length} 項`,
+    `已選條件：${selectedItems.length} / ${MAX_SELECTION}`,
     `使用預算：${used} / 500`,
+    "",
+    "我的條件分配：",
+    itemText,
     "",
     "面向分數：",
     scoreText,
-    "",
-    "條件分配：",
-    itemText,
     "",
     "買家的你，如何挑選愛情？"
   ].join("\n");
