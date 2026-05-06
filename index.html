@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#F7F1EC" />
+  <meta name="theme-color" content="#F8F0EA" />
   <title>買家的你，如何挑選愛情？</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -11,47 +11,66 @@
 <body data-page="index">
   <main class="app">
     <header class="topbar">
-      <span class="brand">Love Market</span>
+      <a class="brand" href="index.html">Love Market</a>
 
-      <select id="themeSelect" aria-label="選擇頁面風格">
-        <option value="warm">暖粉紙感</option>
-        <option value="mono">黑白極簡</option>
-        <option value="blue">清透藍</option>
-        <option value="green">森林綠</option>
-        <option value="violet">紫霧漸層</option>
-      </select>
+      <button id="themeToggleBtn" class="theme-toggle" type="button" aria-label="切換頁面風格">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
     </header>
 
-    <section class="cover-card">
+    <section class="hero-card float-in">
+      <div class="soft-orb orb-one"></div>
+      <div class="soft-orb orb-two"></div>
+
       <p class="eyebrow">LOVE MARKET TEST</p>
 
       <h1>買家的你，<br />如何挑選愛情？</h1>
 
-      <p class="cover-text">
-        你有 500 元預算，可以自由分配給你最重視的伴侶條件。
-        每一筆投入，都會變成你的愛情條件分數。
+      <p class="hero-text">
+        假設你有 500 元預算，請先挑出你重視的伴侶條件，再把預算分配給它們。
+        投入越高，代表這個條件對你越重要。
       </p>
 
-      <div class="cover-tags">
-        <span>安全與信任</span>
-        <span>溝通修復</span>
-        <span>親密陪伴</span>
-        <span>生活價值觀</span>
+      <div class="tiny-theme-panel" id="themePanel">
+        <p>頁面風格</p>
+        <div class="theme-dot-row">
+          <button class="theme-dot warm" data-theme-choice="warm" aria-label="暖粉紙感"></button>
+          <button class="theme-dot cream" data-theme-choice="cream" aria-label="奶油甜感"></button>
+          <button class="theme-dot blue" data-theme-choice="blue" aria-label="清透藍"></button>
+          <button class="theme-dot green" data-theme-choice="green" aria-label="森林綠"></button>
+          <button class="theme-dot violet" data-theme-choice="violet" aria-label="紫霧感"></button>
+        </div>
       </div>
 
-      <section class="theme-panel">
-        <p class="section-title">選擇頁面風格</p>
+      <div class="hero-tags">
+        <span>先選條件</span>
+        <span>再分配 500 元</span>
+        <span>可分享分數</span>
+      </div>
 
-        <div class="theme-grid">
-          <button class="theme-choice" data-theme-choice="warm">暖粉紙感</button>
-          <button class="theme-choice" data-theme-choice="mono">黑白極簡</button>
-          <button class="theme-choice" data-theme-choice="blue">清透藍</button>
-          <button class="theme-choice" data-theme-choice="green">森林綠</button>
-          <button class="theme-choice" data-theme-choice="violet">紫霧漸層</button>
+      <a class="primary-link" href="select.html">開始挑選</a>
+    </section>
+
+    <section class="info-card fade-up">
+      <h2>玩法</h2>
+      <div class="steps">
+        <div>
+          <strong>1</strong>
+          <p>從所有條件中選出你在意的項目。</p>
         </div>
-      </section>
 
-      <button id="startBtn" class="primary-btn">開始分配 500 元</button>
+        <div>
+          <strong>2</strong>
+          <p>只對你選到的條件分配 500 元。</p>
+        </div>
+
+        <div>
+          <strong>3</strong>
+          <p>產生分數結果，分享給朋友看。</p>
+        </div>
+      </div>
     </section>
   </main>
 
