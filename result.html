@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#F7F1EC" />
+  <title>我的分數結果｜買家的你，如何挑選愛情？</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+
+<body data-page="result">
+  <main class="app">
+    <header class="topbar">
+      <a href="index.html" class="text-link">重新開始</a>
+      <select id="themeSelect" aria-label="選擇頁面風格">
+        <option value="warm">暖粉紙感</option>
+        <option value="mono">黑白極簡</option>
+        <option value="blue">清透藍</option>
+        <option value="green">森林綠</option>
+        <option value="violet">紫霧漸層</option>
+      </select>
+    </header>
+
+    <section class="result-intro">
+      <p class="eyebrow">SCORE RESULT</p>
+      <h1>我的愛情條件分數</h1>
+      <p id="resultSummary"></p>
+    </section>
+
+    <section id="shareCard" class="share-card">
+      <div class="card-top">
+        <p class="card-label">LOVE MARKET RESULT</p>
+        <p class="card-subtitle">500 元條件分配</p>
+      </div>
+
+      <h2>我的愛情條件分數</h2>
+
+      <div class="score-meta">
+        <div>
+          <span>使用預算</span>
+          <strong id="cardUsedBudget">0 / 500</strong>
+        </div>
+        <div>
+          <span>最高投入</span>
+          <strong id="cardTopDimension">尚未分配</strong>
+        </div>
+      </div>
+
+      <div class="radar-wrap">
+        <svg id="radarSvg" viewBox="0 0 320 320" role="img" aria-label="愛情條件分數雷達圖"></svg>
+      </div>
+
+      <section class="score-bars">
+        <p class="section-title">面向分數</p>
+        <div id="dimensionScores"></div>
+      </section>
+
+      <section class="top-list">
+        <p class="section-title">投入最高的條件</p>
+        <ol id="topItems"></ol>
+      </section>
+
+      <p class="card-footer">買家的你，如何挑選愛情？</p>
+    </section>
+
+    <section class="share-actions">
+      <button id="shareLinkBtn" class="primary-btn">分享我的分數連結</button>
+      <button id="downloadBtn" class="secondary-btn">儲存 IG 限動圖</button>
+      <button id="copyTextBtn" class="secondary-btn">複製分數文字</button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
