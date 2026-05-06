@@ -2,50 +2,73 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#F7F1EC" />
   <title>買家的你，如何挑選愛情？</title>
+
   <link rel="stylesheet" href="style.css" />
+
+  <!-- 產生社群分享圖用 -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
+
 <body>
-  <main class="page">
+  <main class="app">
     <section class="hero">
-      <p class="tag">Love Market</p>
-      <h1>買家的你，如何挑選愛情？</h1>
-      <p class="subtitle">
-        假設你有 500 元預算，請把錢分配給你最重視的伴侶條件。投越多，代表你越在意。
+      <p class="eyebrow">LOVE MARKET TEST</p>
+      <h1>買家的你，<br />如何挑選愛情？</h1>
+      <p class="intro">
+        假設你有 500 元預算，請把錢分配給你最重視的伴侶條件。
+        投越多，代表你越在意。
       </p>
     </section>
 
-    <section class="budget-card">
+    <section class="budget-panel">
       <div>
-        <p>已使用</p>
+        <span>已使用</span>
         <strong id="usedBudget">0</strong>
       </div>
       <div>
-        <p>剩餘</p>
+        <span>剩餘</span>
         <strong id="leftBudget">500</strong>
       </div>
       <div>
-        <p>總預算</p>
+        <span>總預算</span>
         <strong>500</strong>
       </div>
     </section>
 
-    <section class="notice">
-      <p>
-        操作方式：每個條件可以投入 0～500 元，但全部加總不能超過 500 元。
-        你可以先把錢放在「沒有就不行」的條件，再分配給加分條件。
-      </p>
+    <section class="hint">
+      先把錢放在「沒有就不行」的條件，再分配給加分條件。全部加總不能超過 500 元。
     </section>
 
-    <section id="questions" class="question-grid"></section>
+    <section id="questionList" class="question-list"></section>
 
-    <section class="actions">
-      <button id="analyzeBtn">產生我的愛情偏好分析</button>
-      <button id="resetBtn" class="secondary">重新分配</button>
+    <section class="button-area">
+      <button id="analyzeBtn" class="primary-btn">產生我的愛情偏好</button>
+      <button id="resetBtn" class="secondary-btn">重新分配</button>
     </section>
 
-    <section id="result" class="result hidden"></section>
+    <section id="resultSection" class="result-section hidden">
+      <div id="shareCard" class="share-card">
+        <p class="card-label">LOVE MARKET RESULT</p>
+        <h2 id="resultTitle">你的愛情類型</h2>
+        <p id="resultDescription" class="result-description"></p>
+
+        <div class="top-list">
+          <p class="top-title">我最重視</p>
+          <ol id="topItems"></ol>
+        </div>
+
+        <p id="resultQuote" class="quote"></p>
+        <p class="footer">買家的你，如何挑選愛情？</p>
+      </div>
+
+      <div class="share-actions">
+        <button id="downloadBtn" class="primary-btn">下載社群分享圖</button>
+        <button id="copyTextBtn" class="secondary-btn">複製分享文字</button>
+      </div>
+    </section>
   </main>
 
   <script src="script.js"></script>
