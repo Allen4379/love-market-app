@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#F8F0EA" />
+  <title>選擇條件｜買家的你，如何挑選愛情？</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body data-page="select">
+  <main class="app with-bottom-bar">
+    <header class="topbar">
+      <a class="text-link" href="index.html">回首頁</a>
+
+      <button id="themeToggleBtn" class="theme-toggle" type="button" aria-label="切換頁面風格">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </header>
+
+    <section class="page-head float-in">
+      <p class="eyebrow">STEP 1</p>
+      <h1>先選出你重視的條件</h1>
+      <p>
+        沒有限制一定要選幾個。先憑直覺挑選，下一頁只會針對你選到的條件分配 500 元。
+      </p>
+
+      <div class="tiny-theme-panel" id="themePanel">
+        <p>頁面風格</p>
+        <div class="theme-dot-row">
+          <button class="theme-dot warm" data-theme-choice="warm" aria-label="暖粉紙感"></button>
+          <button class="theme-dot cream" data-theme-choice="cream" aria-label="奶油甜感"></button>
+          <button class="theme-dot blue" data-theme-choice="blue" aria-label="清透藍"></button>
+          <button class="theme-dot green" data-theme-choice="green" aria-label="森林綠"></button>
+          <button class="theme-dot violet" data-theme-choice="violet" aria-label="紫霧感"></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="selectedPreview" class="selected-preview hidden"></section>
+
+    <section id="conditionGroups" class="condition-groups"></section>
+
+    <section class="bottom-action-bar">
+      <div>
+        <span>已選條件</span>
+        <strong id="selectedCount">0 項</strong>
+      </div>
+
+      <button id="goAllocateBtn" class="primary-btn small-primary" type="button">
+        下一步
+      </button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
