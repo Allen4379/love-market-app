@@ -22,9 +22,12 @@
 
     <section class="page-head float-in">
       <p class="eyebrow">STEP 1</p>
+
       <h1>先選出你重視的條件</h1>
+
       <p>
-        沒有限制一定要選幾個。先憑直覺挑選，下一頁只會針對你選到的條件分配 500 元。
+        請選出最多 5 個你最重視的伴侶條件。選滿後，其他條件會變淡。
+        下一步只會針對你選到的條件分配 500 元。
       </p>
 
       <div class="tiny-theme-panel" id="themePanel">
@@ -41,12 +44,16 @@
 
     <section id="selectedPreview" class="selected-preview hidden"></section>
 
+    <section id="limitToast" class="limit-toast hidden">
+      最多只能選 5 個條件。可以先取消一個已選條件，再選新的。
+    </section>
+
     <section id="conditionGroups" class="condition-groups"></section>
 
     <section class="bottom-action-bar">
       <div>
         <span>已選條件</span>
-        <strong id="selectedCount">0 項</strong>
+        <strong id="selectedCount">0 / 5</strong>
       </div>
 
       <button id="goAllocateBtn" class="primary-btn small-primary" type="button">
