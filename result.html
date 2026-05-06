@@ -13,6 +13,7 @@
   <main class="app">
     <header class="topbar">
       <a href="index.html" class="text-link">重新開始</a>
+
       <select id="themeSelect" aria-label="選擇頁面風格">
         <option value="warm">暖粉紙感</option>
         <option value="mono">黑白極簡</option>
@@ -28,46 +29,140 @@
       <p id="resultSummary"></p>
     </section>
 
-    <section id="shareCard" class="share-card">
-      <div class="card-top">
-        <p class="card-label">LOVE MARKET RESULT</p>
-        <p class="card-subtitle">500 元條件分配</p>
-      </div>
-
-      <h2>我的愛情條件分數</h2>
-
-      <div class="score-meta">
+    <section class="result-card compact-card">
+      <div class="result-meta-grid">
         <div>
           <span>使用預算</span>
-          <strong id="cardUsedBudget">0 / 500</strong>
+          <strong id="usedBudgetText">0 / 500</strong>
         </div>
+
         <div>
-          <span>最高投入</span>
-          <strong id="cardTopDimension">尚未分配</strong>
+          <span>最高面向</span>
+          <strong id="topDimensionText">尚未分配</strong>
+        </div>
+
+        <div>
+          <span>最高前三項佔比</span>
+          <strong id="topThreeRatioText">0%</strong>
+        </div>
+
+        <div>
+          <span>底線條件</span>
+          <strong id="mustHaveCountText">0 項</strong>
         </div>
       </div>
+    </section>
 
-      <div class="radar-wrap">
+    <section class="result-card">
+      <h2>面向雷達圖</h2>
+      <p class="card-note">雷達圖呈現你在不同面向的預算分配，不代表好壞，只代表你目前的重視程度。</p>
+
+      <div class="normal-radar-wrap">
         <svg id="radarSvg" viewBox="0 0 320 320" role="img" aria-label="愛情條件分數雷達圖"></svg>
       </div>
+    </section>
 
-      <section class="score-bars">
-        <p class="section-title">面向分數</p>
-        <div id="dimensionScores"></div>
-      </section>
+    <section class="result-card">
+      <h2>面向分數</h2>
+      <div id="dimensionScores" class="score-bars"></div>
+    </section>
 
-      <section class="top-list">
-        <p class="section-title">投入最高的條件</p>
-        <ol id="topItems"></ol>
-      </section>
+    <section class="result-card">
+      <h2>投入最高的條件</h2>
+      <ol id="topItems" class="plain-list"></ol>
+    </section>
 
-      <p class="card-footer">買家的你，如何挑選愛情？</p>
+    <section class="result-card">
+      <h2>不可妥協條件</h2>
+      <p class="card-note">這裡會列出你在測驗中勾選「設為底線」的項目。</p>
+      <ol id="mustHaveItems" class="plain-list"></ol>
+    </section>
+
+    <section class="result-card">
+      <h2>分數報告</h2>
+      <p id="scoreReport" class="report-text"></p>
     </section>
 
     <section class="share-actions">
       <button id="shareLinkBtn" class="primary-btn">分享我的分數連結</button>
-      <button id="downloadBtn" class="secondary-btn">儲存 IG 限動圖</button>
+      <button id="downloadStoryBtn" class="secondary-btn">儲存 IG 限動版</button>
+      <button id="downloadFullBtn" class="secondary-btn">儲存完整分數版</button>
       <button id="copyTextBtn" class="secondary-btn">複製分數文字</button>
+    </section>
+
+    <section class="capture-zone" aria-hidden="true">
+      <article id="storyCard" class="story-card capture-card">
+        <div class="capture-top">
+          <p>LOVE MARKET RESULT</p>
+          <span>500 元條件分配</span>
+        </div>
+
+        <h2>我的愛情條件分數</h2>
+
+        <div class="capture-meta">
+          <div>
+            <span>使用預算</span>
+            <strong id="storyUsedBudget">0 / 500</strong>
+          </div>
+          <div>
+            <span>最高面向</span>
+            <strong id="storyTopDimension">尚未分配</strong>
+          </div>
+        </div>
+
+        <div class="capture-radar-wrap">
+          <svg id="storyRadarSvg" viewBox="0 0 320 320"></svg>
+        </div>
+
+        <div class="capture-top-list">
+          <p>投入最高條件</p>
+          <ol id="storyTopItems"></ol>
+        </div>
+
+        <p class="capture-footer">買家的你，如何挑選愛情？</p>
+      </article>
+
+      <article id="fullCard" class="full-card capture-card">
+        <div class="capture-top">
+          <p>LOVE MARKET RESULT</p>
+          <span>完整分數版</span>
+        </div>
+
+        <h2>我的愛情條件分數</h2>
+
+        <div class="capture-meta full-meta">
+          <div>
+            <span>使用預算</span>
+            <strong id="fullUsedBudget">0 / 500</strong>
+          </div>
+          <div>
+            <span>最高面向</span>
+            <strong id="fullTopDimension">尚未分配</strong>
+          </div>
+          <div>
+            <span>最高前三項佔比</span>
+            <strong id="fullTopThreeRatio">0%</strong>
+          </div>
+          <div>
+            <span>底線條件</span>
+            <strong id="fullMustHaveCount">0 項</strong>
+          </div>
+        </div>
+
+        <div id="fullDimensionScores" class="capture-score-list"></div>
+
+        <div class="capture-top-list">
+          <p>投入最高條件</p>
+          <ol id="fullTopItems"></ol>
+        </div>
+
+        <div class="capture-top-list">
+          <p>不可妥協條件</p>
+          <ol id="fullMustHaveItems"></ol>
+        </div>
+
+        <p class="capture-footer">買家的你，如何挑選愛情？</p>
+      </article>
     </section>
   </main>
 
